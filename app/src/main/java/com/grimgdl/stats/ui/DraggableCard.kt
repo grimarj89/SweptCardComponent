@@ -1,10 +1,11 @@
 package com.grimgdl.stats.ui
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
@@ -17,9 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
@@ -31,11 +29,21 @@ fun DraggableCard(
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
     var angle by remember { mutableStateOf(0f) }
+    var endMove by remember { mutableStateOf(false) }
 
     val animatableX = remember { Animatable(0f)}
     val animatableY = remember { Animatable(0f)}
 
-    val animatableAngle = remember { Animatable(90f)}
+    val animatableAngle = remember { Animatable(0f) }
+
+
+    val animationSpec = remember {
+        SpringSpec<Float>(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    }
+
 
     Box(
         modifier = modifier
@@ -44,32 +52,39 @@ fun DraggableCard(
 
                 detectDragGestures(
                     onDragEnd = {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            offsetX = 0f
-                            offsetY = 0f
-                            angle = 0f
-                            animatableX.snapTo(offsetX)
-                            animatableY.snapTo(offsetY)
-                            animatableAngle.snapTo(angle)
 
-                        }
+                        offsetX = 0f
+                        offsetY = 0f
+                        angle = 0f
+                        endMove = true
+
                     }
 
                 ) { _, dragAmount ->
 
                     offsetX += dragAmount.x
                     offsetY += dragAmount.y * 0.030f
-                    angle += dragAmount.x * 0.015f
-                    CoroutineScope(Dispatchers.Main).launch {
-                        animatableX.snapTo(offsetX)
-                        animatableY.snapTo(offsetY)
-                        animatableAngle.snapTo(angle)
-                    }
+                    angle -= dragAmount.x * 0.015f
+                    endMove = false
+
                 }
             }
             .rotate(angle)
     ){
             cardContent()
+    }
+
+
+    LaunchedEffect(offsetX, offsetY, angle){
+        if (endMove){
+            animatableX.animateTo(targetValue = offsetX, animationSpec = animationSpec)
+            animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec)
+            animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec)
+        }else {
+            animatableX.snapTo(offsetX)
+            animatableY.snapTo(offsetY)
+            animatableAngle.snapTo(angle)
+        }
     }
 
 }
