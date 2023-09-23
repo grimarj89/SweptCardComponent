@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlin.math.roundToInt
 
 
@@ -35,6 +37,7 @@ fun DraggableCard(
     val animatableY = remember { Animatable(0f)}
 
     val animatableAngle = remember { Animatable(0f) }
+
 
 
     val animationSpec = remember {
@@ -62,9 +65,9 @@ fun DraggableCard(
 
                 ) { _, dragAmount ->
 
-                    offsetX += dragAmount.x
-                    offsetY += dragAmount.y * 0.030f
-                    angle -= dragAmount.x * 0.015f
+                    offsetX += dragAmount.x * 0.40f
+                    offsetY += dragAmount.y * 0.40f
+                    angle -= dragAmount.x * 0.025f
                     endMove = false
 
                 }
@@ -77,9 +80,11 @@ fun DraggableCard(
 
     LaunchedEffect(offsetX, offsetY, angle){
         if (endMove){
-            animatableX.animateTo(targetValue = offsetX, animationSpec = animationSpec)
-            animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec)
-            animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec)
+            awaitAll(
+                async { animatableX.animateTo(targetValue = offsetX, animationSpec = animationSpec) },
+                async { animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec) },
+                async { animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec) }
+            )
         }else {
             animatableX.snapTo(offsetX)
             animatableY.snapTo(offsetY)
