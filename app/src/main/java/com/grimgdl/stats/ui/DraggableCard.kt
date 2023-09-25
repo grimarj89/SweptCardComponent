@@ -3,8 +3,6 @@ package com.grimgdl.stats.ui
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -15,7 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.async
@@ -66,7 +65,7 @@ fun DraggableCard(
                 ) { _, dragAmount ->
 
                     offsetX += dragAmount.x * 0.80f
-                    offsetY += dragAmount.y * 0.30f
+                    offsetY += dragAmount.y * 0.20f
                     angle -= dragAmount.x * 0.035f
                     endMove = false
 
@@ -74,7 +73,15 @@ fun DraggableCard(
 
                 }
             }
-            .rotate(angle)
+            .graphicsLayer(
+                rotationZ = angle,
+                transformOrigin = TransformOrigin(
+                    pivotFractionX = 0f,
+                    pivotFractionY = 0f
+                )
+
+            )
+
     ){
             cardContent()
     }
