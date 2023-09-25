@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grimgdl.stats.ui.ActionsButtons
 import com.grimgdl.stats.ui.DraggableCard
 import com.grimgdl.stats.ui.PersonCard
 
@@ -58,6 +59,8 @@ fun MainComponent() {
                 }
 
             }
+
+            ActionsButtons()
 
         }
 

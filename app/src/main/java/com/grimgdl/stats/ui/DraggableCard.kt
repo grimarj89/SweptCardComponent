@@ -65,9 +65,9 @@ fun DraggableCard(
 
                 ) { _, dragAmount ->
 
-                    offsetX += dragAmount.x * 0.40f
-                    offsetY += dragAmount.y * 0.40f
-                    angle -= dragAmount.x * 0.025f
+                    offsetX += dragAmount.x * 0.30f
+                    offsetY += dragAmount.y * 0.30f
+                    angle -= dragAmount.x * 0.020f
                     endMove = false
 
                 }

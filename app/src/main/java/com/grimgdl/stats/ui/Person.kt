@@ -35,7 +35,6 @@ fun PersonCard(
             modifier = modifier
         ){
 
-
             AsyncImage(
                 model = img,
                 contentDescription = null,
@@ -48,7 +47,7 @@ fun PersonCard(
                     .fillMaxWidth()
                     .padding(16.dp)
                     .align(Alignment.BottomStart)
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 80.dp)
             ) {
                 Text(
                     text = "Name",
@@ -65,8 +64,8 @@ fun PersonCard(
                     )
                 )
                 Text(
-                    text = "lorem afldksj falkjsdfk klajsdlkjflaksjdlkfjklaslajflkjsdlkjfs",
-                    fontSize = 12.sp,
+                    text = "I'm not looking for anything casual.",
+                    fontSize = 14.sp,
                     color = Color(0xFFFAFAFA),
                     style = TextStyle(
                         shadow = Shadow(
