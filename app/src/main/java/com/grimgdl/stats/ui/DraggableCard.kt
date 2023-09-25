@@ -26,6 +26,7 @@ import kotlin.math.roundToInt
 @Composable
 fun DraggableCard(
     modifier: Modifier= Modifier,
+    cardViewModel: CardViewModel,
     cardContent: @Composable () -> Unit
 ) {
     var offsetX by remember { mutableStateOf(0f) }
@@ -37,7 +38,6 @@ fun DraggableCard(
     val animatableY = remember { Animatable(0f)}
 
     val animatableAngle = remember { Animatable(0f) }
-
 
 
     val animationSpec = remember {
@@ -65,10 +65,12 @@ fun DraggableCard(
 
                 ) { _, dragAmount ->
 
-                    offsetX += dragAmount.x * 0.30f
+                    offsetX += dragAmount.x * 0.80f
                     offsetY += dragAmount.y * 0.30f
-                    angle -= dragAmount.x * 0.020f
+                    angle -= dragAmount.x * 0.035f
                     endMove = false
+
+                    cardViewModel.setOffset(dragAmount)
 
                 }
             }
@@ -81,9 +83,9 @@ fun DraggableCard(
     LaunchedEffect(offsetX, offsetY, angle){
         if (endMove){
             awaitAll(
+                async { animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec) },
                 async { animatableX.animateTo(targetValue = offsetX, animationSpec = animationSpec) },
-                async { animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec) },
-                async { animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec) }
+                async { animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec) }
             )
         }else {
             animatableX.snapTo(offsetX)

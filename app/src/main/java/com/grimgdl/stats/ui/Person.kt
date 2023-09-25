@@ -50,7 +50,7 @@ fun PersonCard(
                     .padding(bottom = 80.dp)
             ) {
                 Text(
-                    text = "Name",
+                    text = "Stephany",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFF1F1F1),

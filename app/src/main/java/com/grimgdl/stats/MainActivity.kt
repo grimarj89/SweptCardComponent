@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grimgdl.stats.ui.ActionsButtons
+import com.grimgdl.stats.ui.CardViewModel
 import com.grimgdl.stats.ui.DraggableCard
 import com.grimgdl.stats.ui.PersonCard
 
@@ -38,6 +40,9 @@ fun MainComponent() {
 
     MaterialTheme {
 
+
+        val cardViewModel = remember { CardViewModel() }
+
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -51,7 +56,8 @@ fun MainComponent() {
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color(0xff505050))
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    cardViewModel = cardViewModel
                 ) {
                     PersonCard(
                         modifier = Modifier.fillMaxSize()
@@ -60,7 +66,7 @@ fun MainComponent() {
 
             }
 
-            ActionsButtons()
+            ActionsButtons(cardViewModel = cardViewModel)
 
         }
 
