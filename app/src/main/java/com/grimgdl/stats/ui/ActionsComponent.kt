@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,8 +28,9 @@ import com.grimgdl.stats.ui.theme.RedDislike
 fun ActionsButtons(cardViewModel: CardViewModel) {
 
     val stateFlowModel = cardViewModel.stateFlowCard.collectAsState()
+    val stateAngle by cardViewModel.angle.collectAsState()
 
-    Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Y: ${stateFlowModel.value.y}")
+    Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Angle: $stateAngle")
 
     Row(
         modifier = Modifier.padding(bottom = 40.dp) ,
