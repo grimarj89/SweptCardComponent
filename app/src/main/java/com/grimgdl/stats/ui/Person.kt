@@ -26,7 +26,9 @@ import coil.compose.AsyncImage
 @Composable
 fun PersonCard(
     modifier: Modifier = Modifier,
-    img: String = "https://images.unsplash.com/photo-1609132718484-cc90df3417f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+    img: String = "https://images.unsplash.com/photo-1609132718484-cc90df3417f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    name: String,
+    description: String
 ) {
 
     Card {
@@ -50,7 +52,7 @@ fun PersonCard(
                     .padding(bottom = 80.dp)
             ) {
                 Text(
-                    text = "Stephany",
+                    text = name,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFF1F1F1),
@@ -64,7 +66,7 @@ fun PersonCard(
                     )
                 )
                 Text(
-                    text = "I'm not looking for anything casual.",
+                    text = description,
                     fontSize = 14.sp,
                     color = Color(0xFFFAFAFA),
                     style = TextStyle(
@@ -84,6 +86,12 @@ fun PersonCard(
 
     }
 
-
-
 }
+
+data class Person(
+    val id: Int,
+    val name: String,
+    val img:String = "https://images.unsplash.com/photo-1609132718484-cc90df3417f8?ixlib=rb-4.0.3&i" +
+            "xid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    val description: String
+)

@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val RedDislike = Color(0xFFD62424)
 val GreenLike = Color(0xFF35C274)
+
+val AddColor = Color(0xFF1368E9)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.grimgdl.stats.ui.ActionsButtons
 import com.grimgdl.stats.ui.CardViewModel
 import com.grimgdl.stats.ui.DraggableCard
+import com.grimgdl.stats.ui.Person
 import com.grimgdl.stats.ui.PersonCard
 
 
@@ -27,13 +29,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             MainComponent()
-
         }
     }
 
 }
+
 
 @Composable
 fun MainComponent() {
@@ -48,19 +49,18 @@ fun MainComponent() {
             color = MaterialTheme.colorScheme.background
         ){
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            cardViewModel.cards.forEachIndexed { index, person ->
 
                 DraggableCard(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color(0xff505050))
-                        .padding(16.dp),
+                        .background(Color(0x00505050)),
                     cardViewModel = cardViewModel
                 ) {
                     PersonCard(
-                        modifier = Modifier.fillMaxSize()
+                        name = person.name,
+                        description = person.description,
+                        img = person.img
                     )
                 }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ButtonDefaults
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.grimgdl.stats.ui.theme.AddColor
 import com.grimgdl.stats.ui.theme.GreenLike
 import com.grimgdl.stats.ui.theme.RedDislike
 
@@ -30,7 +32,7 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
     val stateFlowModel = cardViewModel.stateFlowCard.collectAsState()
     val stateAngle by cardViewModel.angle.collectAsState()
 
-    Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Angle: $stateAngle")
+    Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Y: ${stateFlowModel.value.y}  Angle: $stateAngle")
 
     Row(
         modifier = Modifier.padding(bottom = 40.dp) ,
@@ -38,7 +40,9 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
         verticalAlignment = Alignment.Bottom
     ) {
 
-        DisLike()
+        DisLike(cardViewModel)
+
+        AddItems(cardViewModel = cardViewModel)
 
         Like()
 
@@ -49,10 +53,28 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
 
 
 @Composable
-fun DisLike() {
+fun AddItems(cardViewModel: CardViewModel) {
+    OutlinedButton(
+        onClick = cardViewModel::addToListPearson,
+        modifier = Modifier.size(50.dp),
+        shape = CircleShape,
+        border = BorderStroke(2.dp, AddColor),
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = AddColor )
+    )
+    {
+        Icon(Icons.Default.Add, contentDescription = null )
+    }
+}
+
+
+@Composable
+fun DisLike(cardViewModel: CardViewModel) {
 
     OutlinedButton(
-        onClick = { /*TODO*/ },
+        onClick = {
+                  cardViewModel.removePerson(Person(id = 234, name = "gus", description = "flaksdjk"))
+        },
         modifier = Modifier.size(50.dp),
         shape = CircleShape,
         border = BorderStroke(2.dp, RedDislike),

@@ -2,10 +2,8 @@ package com.grimgdl.stats.ui
 
 import android.util.Log
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +29,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
@@ -75,11 +78,11 @@ fun DraggableCard(
 
                 ) { _, dragAmount ->
                     endMove = false
-                    offsetX += dragAmount.x * 0.30f
+                    offsetX += dragAmount.x * 0.50f
                     offsetY += dragAmount.y * 0.30f
                     angle -= dragAmount.x * 0.035f
 
-                    pivot = if (dragAmount.x > 0)  1f else 0f
+                    pivot = if (dragAmount.x >= 0) 1f else 0f
 
                     cardViewModel.setOffset(dragAmount)
                     cardViewModel.setAngle(angle)
@@ -94,6 +97,7 @@ fun DraggableCard(
                 )
 
             )
+            .background(color = Color.Transparent)
 
     ){
             cardContent()
@@ -118,32 +122,3 @@ fun DraggableCard(
 
 }
 
-@Preview
-@Composable
-fun BoxRotation() {
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-
-    ) {
-        Box(
-            modifier = Modifier
-                .size(150.dp)
-                .graphicsLayer(
-                    rotationZ = -45f,
-                    transformOrigin = TransformOrigin(
-                        pivotFractionX = .5f,
-                        pivotFractionY = .5f
-                    )
-                )
-                .background(Color.Black)
-
-        ) {
-            Text(text="hello", color = Color.White)
-        }
-    }
-
-
-}
