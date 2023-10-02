@@ -43,10 +43,13 @@ fun PersonCard(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
+                    Box (
+                        modifier = Modifier.size(32.dp),
+                        contentAlignment = Alignment.Center
+                    ){
 
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(32.dp)
-                    )
+                        CircularProgressIndicator()
+                    }
 
                 }
             )
