@@ -35,6 +35,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
@@ -55,6 +56,8 @@ fun DraggableCard(
 
     val animatableAngle = remember { Animatable(0f) }
 
+    var visible by remember { mutableStateOf(true) }
+
     val animationSpec = remember {
         SpringSpec<Float>(
             dampingRatio = Spring.DampingRatioLowBouncy,
@@ -62,56 +65,63 @@ fun DraggableCard(
         )
     }
 
-    Box(
-        modifier = modifier
-            .offset { IntOffset(animatableX.value.roundToInt(), animatableY.value.roundToInt()) }
-            .pointerInput(Unit) {
+    Log.i("Composable Draggable", "enter $visible position $offsetX")
 
-                detectDragGestures(
-                    onDragEnd = {
+    if (visible) {
+        Box(
+            modifier = modifier
+                .offset { IntOffset(animatableX.value.roundToInt(), animatableY.value.roundToInt()) }
+                .pointerInput(Unit) {
 
-                        endMove = true
-                        offsetX = 0f
-                        offsetY = 0f
-                        angle = 0f
+                    detectDragGestures(
+                        onDragEnd = {
+
+                            endMove = true
+                            offsetX = if(offsetX.absoluteValue > 100) offsetX * 10f else 0f
+                            offsetY = 0f
+                            angle = 0f
+
+                        }
+
+                    ) { _, dragAmount ->
+                        endMove = false
+                        offsetX += dragAmount.x * 0.50f
+                        offsetY += dragAmount.y * 0.30f
+
+                        angle -= dragAmount.x * 0.030f
+
+                        pivot = if (dragAmount.x >= 0) 1f else 0f
+
+                        cardViewModel.setOffset(dragAmount)
+                        cardViewModel.setAngle(angle)
                     }
-
-                ) { _, dragAmount ->
-                    endMove = false
-                    offsetX += dragAmount.x * 0.50f
-                    offsetY += dragAmount.y * 0.30f
-                    angle -= dragAmount.x * 0.035f
-
-                    pivot = if (dragAmount.x >= 0) 1f else 0f
-
-                    cardViewModel.setOffset(dragAmount)
-                    cardViewModel.setAngle(angle)
-
                 }
-            }
-            .graphicsLayer(
-                rotationZ = animatableAngle.value,
-                transformOrigin = TransformOrigin(
-                    pivotFractionX = pivot,
-                    pivotFractionY = 0f
+                .graphicsLayer(
+                    rotationZ = animatableAngle.value,
+                    transformOrigin = TransformOrigin(
+                        pivotFractionX = pivot,
+                        pivotFractionY = 0f
+                    )
+
                 )
+                .background(color = Color.Transparent)
 
-            )
-            .background(color = Color.Transparent)
-
-    ){
+        ){
             cardContent()
+        }
     }
+
 
 
     LaunchedEffect(offsetX, offsetY, angle){
         if (endMove){
             awaitAll(
-
                 async { animatableX.animateTo(targetValue = offsetX, animationSpec = animationSpec) },
                 async { animatableY.animateTo(targetValue = offsetY, animationSpec = animationSpec) },
                 async { animatableAngle.animateTo(targetValue = angle, animationSpec = animationSpec) }
             )
+
+            if (offsetX.absoluteValue > 100) visible = false
         }else {
             animatableX.snapTo(offsetX)
             animatableY.snapTo(offsetY)

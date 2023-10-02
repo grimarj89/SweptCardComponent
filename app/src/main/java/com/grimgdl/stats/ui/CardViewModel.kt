@@ -34,6 +34,11 @@ class CardViewModel: ViewModel(){
         Log.i("List Add", "$cards")
     }
 
+    fun addRandomPerson(){
+        cards += getRandomPerson()
+    }
+
+
     fun removePerson(pearson: Person){
         cards = cards.filter {
             it.name != pearson.name
@@ -43,24 +48,54 @@ class CardViewModel: ViewModel(){
 
     }
 
-
 }
+
+fun getRandomPerson() = Person(
+    name = " Maria ${(1..4000).random()}",
+    id = (1..4000).random(),
+    description = "ffkljasdlkjfkajsdlk"
+)
 
 fun getList(): List<Person>{
 
     return listOf(
         Person(
-            name = "Lola",
+            name = "Lola ${(1..300).random()}",
             id = 234,
             description = "fladsjfklasdjklfjklsdjklfs",
-            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-near-walll-with-leaves_8353-5377.jpg?w=740&t=st=1696021390~exp=1696021990~hmac=63c4b3713bd110e941417b6b0c7d0b694a72c4ef71630e77732260e7893c167f"
+            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-near-walll-with-leaves_8353-5377." +
+                    "jpg?w=740&t=st=1696021390~exp=1696021990~hmac=63c4b3713bd110e941417b6b0c7d0b694a72c4ef71630e77732260e7893c167f"
         ),
         Person(
-            name = "Maria",
+            name = "Maria ${(444..555).random()}",
             id = 232,
             description = "lorem itsum kd lkfjd iekde498d lkds dkd",
             img = "https://img.freepik.com/free-photo/beautiful-girl-stands-park_8353-5084.jpg?w=740&t=st=1696021460~exp=1696022060~hmac=71d31bd330bccbebeb00db4f4e5700849c17a0bc8253d48e55bf070af12046a1"
         ),
+        Person(
+            name = "Maria ${(444..555).random()}",
+            id = 232,
+            description = "lorem itsum kd lkfjd iekde498d lkds dkd",
+            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-park_8353-5084.jpg?w=740&t=st=1696021460~exp=1696022060~hmac=71d31bd330bccbebeb00db4f4e5700849c17a0bc8253d48e55bf070af12046a1"
+        ),
+        Person(
+            name = "Maria ${(444..555).random()}",
+            id = 232,
+            description = "lorem itsum kd lkfjd iekde498d lkds dkd",
+            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-park_8353-5084.jpg?w=740&t=st=1696021460~exp=1696022060~hmac=71d31bd330bccbebeb00db4f4e5700849c17a0bc8253d48e55bf070af12046a1"
+        ),
+        Person(
+            name = "Maria ${(444..555).random()}",
+            id = 232,
+            description = "lorem itsum kd lkfjd iekde498d lkds dkd",
+            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-park_8353-5084.jpg?w=740&t=st=1696021460~exp=1696022060~hmac=71d31bd330bccbebeb00db4f4e5700849c17a0bc8253d48e55bf070af12046a1"
+        ),
+        Person(
+            name = "Maria ${(444..555).random()}",
+            id = 232,
+            description = "lorem itsum kd lkfjd iekde498d lkds dkd",
+            img = "https://img.freepik.com/free-photo/beautiful-girl-stands-park_8353-5084.jpg?w=740&t=st=1696021460~exp=1696022060~hmac=71d31bd330bccbebeb00db4f4e5700849c17a0bc8253d48e55bf070af12046a1"
+        )
     )
 
 }

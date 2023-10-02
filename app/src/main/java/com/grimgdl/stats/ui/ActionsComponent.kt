@@ -41,13 +41,9 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
     ) {
 
         DisLike(cardViewModel)
-
         AddItems(cardViewModel = cardViewModel)
-
         Like()
-
     }
-
 
 }
 
@@ -55,7 +51,7 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
 @Composable
 fun AddItems(cardViewModel: CardViewModel) {
     OutlinedButton(
-        onClick = cardViewModel::addToListPearson,
+        onClick = cardViewModel::addRandomPerson,
         modifier = Modifier.size(50.dp),
         shape = CircleShape,
         border = BorderStroke(2.dp, AddColor),
