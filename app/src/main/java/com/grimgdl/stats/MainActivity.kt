@@ -43,15 +43,18 @@ fun MainComponent() {
 
         val cardViewModel = remember { CardViewModel() }
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            modifier = Modifier
+                .fillMaxSize(),
+            color = MaterialTheme.colorScheme.background,
         ){
             cardViewModel.cards.forEachIndexed { index, person ->
 
                 DraggableCard(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color(0x00505050)),
+                        .background(Color(0x00505050))
+                        .padding(16.dp)
+                    ,
                     cardViewModel = cardViewModel
                 ) {
                     PersonCard(

@@ -22,10 +22,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
+import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -35,6 +38,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -65,36 +69,59 @@ fun DraggableCard(
         )
     }
 
-    Log.i("Composable Draggable", "enter $visible position $offsetX")
+    //Log.i("Composable Draggable", "enter $visible position $offsetX")
 
     if (visible) {
         Box(
             modifier = modifier
                 .offset { IntOffset(animatableX.value.roundToInt(), animatableY.value.roundToInt()) }
                 .pointerInput(Unit) {
+                    coroutineScope {
+                        detectDragGestures(
 
-                    detectDragGestures(
-                        onDragEnd = {
+                            onDragCancel = {
+                                Log.i("DragCancel", "end offsetY $offsetY ")
+                            },
 
-                            endMove = true
-                            offsetX = if(offsetX.absoluteValue > 100) offsetX * 10f else 0f
-                            offsetY = 0f
-                            angle = 0f
+                            onDragEnd = {
 
-                        }
+                                Log.i("DragEnd", "end offsetY $offsetY ")
+                                launch {
+                                    endMove = true
+                                    offsetX = if(offsetX.absoluteValue > 100) offsetX * 10f else 0f
+                                    offsetY = 0f
+                                    angle = 0f
+                                }
 
-                    ) { _, dragAmount ->
-                        endMove = false
-                        offsetX += dragAmount.x * 0.50f
-                        offsetY += dragAmount.y * 0.30f
 
-                        angle -= dragAmount.x * 0.030f
+                            },
+                            onDrag = { change, dragAmount ->
 
-                        pivot = if (dragAmount.x >= 0) 1f else 0f
+                                launch {
+                                    endMove = false
 
-                        cardViewModel.setOffset(dragAmount)
-                        cardViewModel.setAngle(angle)
+                                    offsetX += dragAmount.x * .50f
+                                    offsetY += dragAmount.y * .50f
+
+                                    //Log.i("drag x inter" , "drag y $dragAmount offsetX $offsetX offsetY $offsetY")
+                                    Log.i("OffsetY", "DragY ${dragAmount.y} offset $offsetY")
+
+                                    angle -= dragAmount.x * 0.030f
+
+                                    //pivot = if (dragAmount.x >= 0) 1f else 0f
+
+                                    //if (change.positionChange() != Offset.Zero) change.consume()
+
+                                    cardViewModel.setOffset(dragAmount)
+                                    cardViewModel.setAngle(angle)
+                                }
+
+
+                            }
+
+                        )
                     }
+
                 }
                 .graphicsLayer(
                     rotationZ = animatableAngle.value,

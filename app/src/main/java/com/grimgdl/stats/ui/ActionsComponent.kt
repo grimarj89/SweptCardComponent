@@ -32,7 +32,7 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
     val stateFlowModel = cardViewModel.stateFlowCard.collectAsState()
     val stateAngle by cardViewModel.angle.collectAsState()
 
-    Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Y: ${stateFlowModel.value.y}  Angle: $stateAngle")
+    //Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Y: ${stateFlowModel.value.y}  Angle: $stateAngle")
 
     Row(
         modifier = Modifier.padding(bottom = 40.dp) ,
