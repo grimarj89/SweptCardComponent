@@ -29,8 +29,10 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +55,7 @@ fun DraggableCard(
     var offsetY by remember { mutableStateOf(0f) }
     var angle by remember { mutableStateOf(0f) }
     var endMove by remember { mutableStateOf(false) }
-    var pivot by remember { mutableStateOf(0f) }
+    val pivot by remember { mutableStateOf(0f) }
 
     val animatableX = remember { Animatable(0f)}
     val animatableY = remember { Animatable(0f)}
@@ -98,6 +100,7 @@ fun DraggableCard(
                             onDrag = { change, dragAmount ->
 
                                 launch {
+                                    change.positionChange()
                                     endMove = false
 
                                     offsetX += dragAmount.x * .50f
