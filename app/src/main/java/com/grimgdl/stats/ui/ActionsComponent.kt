@@ -18,7 +18,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.grimgdl.stats.ui.theme.AddColor
@@ -27,7 +26,10 @@ import com.grimgdl.stats.ui.theme.RedDislike
 
 
 @Composable
-fun ActionsButtons(cardViewModel: CardViewModel) {
+fun ActionsButtons(
+    cardViewModel: CardViewModel,
+    modifier: Modifier = Modifier
+) {
 
     val stateFlowModel = cardViewModel.stateFlowCard.collectAsState()
     val stateAngle by cardViewModel.angle.collectAsState()
@@ -35,11 +37,9 @@ fun ActionsButtons(cardViewModel: CardViewModel) {
     //Log.i("Offset ViewModel", "X: ${stateFlowModel.value.x} Y: ${stateFlowModel.value.y}  Angle: $stateAngle")
 
     Row(
-        modifier = Modifier.padding(bottom = 40.dp) ,
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.Bottom
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
-
         DisLike(cardViewModel)
         AddItems(cardViewModel = cardViewModel)
         Like()
