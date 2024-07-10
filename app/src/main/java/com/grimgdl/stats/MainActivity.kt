@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.grimgdl.stats.ui.ActionsButtons
 import com.grimgdl.stats.ui.CardViewModel
 import com.grimgdl.stats.ui.DraggableCard
-import com.grimgdl.stats.ui.Person
 import com.grimgdl.stats.ui.PersonCard
-
 
 
 class MainActivity : ComponentActivity() {
