@@ -1,7 +1,6 @@
 package com.grimgdl.stats.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,33 +17,26 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.android.style.ShadowSpan
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.rotationMatrix
 import coil.compose.SubcomposeAsyncImage
+import kotlin.math.abs
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -110,15 +102,19 @@ fun PersonCard(
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 50.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+
+
                 Text(
                     text = "Like",
                     color = Color.Green,
                     fontSize = 40.sp,
-                    modifier = Modifier.rotate(-45f),
+                    modifier = Modifier.rotate(-45f)
+                        .alpha( if(isAbsolute(offsetX)) 0f else abs(alphaText(offsetX)) ),
                     style = LocalTextStyle.current.merge(
                         TextStyle(
                             color = Color(0xFF3FDD6C),
@@ -135,7 +131,9 @@ fun PersonCard(
                     text = "Dislike",
                     color = Color.Red,
                     fontSize = 35.sp,
-                    modifier = Modifier.rotate(45f),
+                    modifier = Modifier.rotate(45f)
+                        .alpha( if(isAbsolute(offsetX)) abs(alphaText(offsetX)) else 0f)
+                    ,
                     style = LocalTextStyle.current.merge(
                         TextStyle(
                             color = Color(0xFFDD3F44),
@@ -146,6 +144,12 @@ fun PersonCard(
                         )
                     )
                 )
+
+
+
+
+
+
             }
 
 
@@ -233,3 +237,7 @@ data class Person(
 fun CardPreview() {
     PersonCard(name = "gus", description = "lfsadkj")
 }
+
+fun alphaText(number: Float): Float = (number / 60f)
+
+fun isAbsolute(number: Float): Boolean = (number >= 0f)
