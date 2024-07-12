@@ -34,7 +34,7 @@ import kotlin.math.roundToInt
 fun DraggableCard(
     modifier: Modifier= Modifier,
     cardViewModel: CardViewModel,
-    cardContent: @Composable () -> Unit
+    cardContent: @Composable (offset:Float) -> Unit
 ) {
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
@@ -120,7 +120,7 @@ fun DraggableCard(
                 .background(color = Color.Transparent)
 
         ){
-            cardContent()
+            cardContent(offsetX)
         }
     }
 

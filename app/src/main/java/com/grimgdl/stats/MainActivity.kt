@@ -64,26 +64,15 @@ fun MainComponent() {
                             .padding(16.dp)
                         ,
                         cardViewModel = cardViewModel
-                    ) {
+                    ) { offset ->
                         PersonCard(
                             name = person.name,
                             description = person.description,
-                            img = person.img
+                            img = person.img,
+                            offsetX = offset
                         )
                     }
 
-                }
-
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    Text(text = "Dislike")
-
-                    Text(text = "Like")
                 }
 
 
